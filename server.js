@@ -7,7 +7,7 @@ const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
 
 const app = express();
-const db = new sqlite3.Map(":memory:"); // In-memory DB for demo
+const db = new sqlite3.databaseMap(":memory:"); // In-memory DB for demo
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
