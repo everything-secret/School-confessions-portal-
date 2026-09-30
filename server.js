@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret:process.env.SESSION_SECRET || 'fallback_secret',
     resave: false,
     saveUninitialized: false,
   })
