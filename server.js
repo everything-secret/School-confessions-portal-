@@ -10,7 +10,7 @@ const app = express();
 const db = new sqlite3.Database(":memory:"); // In-memory DB for demo
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname "")));
 app.use(
   session({
     secret:process.env.SESSION_SECRET || 'fallback_secret',
