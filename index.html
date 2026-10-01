@@ -1,0 +1,920 @@
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Confessions - Anonymous Platform</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 7s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #05070d;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .font-heading {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Aesthetics Glassmorphism Styles */
+        .glass-header {
+            background: rgba(8, 12, 22, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(20, 27, 45, 0.7) 0%, rgba(10, 14, 26, 0.9) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(18, 25, 42, 0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.35);
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), 0 0 25px rgba(99, 102, 241, 0.12);
+        }
+
+        .glass-input {
+            background: rgba(10, 15, 28, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.25s ease;
+        }
+
+        .glass-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2), 0 0 20px rgba(99, 102, 241, 0.15);
+            outline: none;
+        }
+
+        .neon-border {
+            position: relative;
+        }
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 1.5rem;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.5), rgba(168, 85, 247, 0.4), rgba(236, 72, 153, 0.4));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05070d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        .active-tag {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+            color: #ffffff !important;
+            border-color: transparent !important;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-indigo-500 selection:text-white">
+
+    <!-- Ambient Glowing Light Background Orbs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute -top-40 -left-40 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[140px] animate-pulse-slow"></div>
+        <div class="absolute top-1/3 -right-40 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[140px] animate-pulse-slow" style="animation-delay: 2s;"></div>
+        <div class="absolute -bottom-40 left-1/3 w-[600px] h-[600px] bg-pink-600/10 rounded-full blur-[140px] animate-pulse-slow" style="animation-delay: 4s;"></div>
+    </div>
+
+    <header class="sticky top-0 z-40 glass-header">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 p-0.5 shadow-lg shadow-indigo-500/20">
+                    <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
+                        <i data-lucide="ghost" class="w-5 h-5 text-indigo-400"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="font-heading font-extrabold text-xl sm:text-2xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-indigo-300">
+                        SchoolConfessions
+                    </span>
+                    <span class="hidden sm:inline-block ml-2.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                        100% Anonymous
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <div id="statsBadge" class="hidden md:flex items-center space-x-2 text-xs text-slate-300 bg-slate-900/80 px-3.5 py-1.5 rounded-full border border-slate-800">
+                    <i data-lucide="message-circle" class="w-3.5 h-3.5 text-indigo-400"></i>
+                    <span>Confessions: <strong id="totalPostsCount" class="text-indigo-300 font-mono">4</strong></span>
+                </div>
+
+                <button id="adminNavBtn" onclick="openAdminModal()" class="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-800 hover:border-indigo-500/40 transition shadow-sm">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-indigo-400"></i>
+                    <span>Admin Panel</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center space-x-3 bg-slate-900/95 text-slate-100 border border-indigo-500/30 px-5 py-3.5 rounded-2xl shadow-2xl backdrop-blur-md">
+        <div id="toastIcon" class="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="check-circle" class="w-5 h-5"></i>
+        </div>
+        <div>
+            <p id="toastTitle" class="font-heading font-bold text-sm text-white">Success!</p>
+            <p id="toastMsg" class="text-xs text-slate-400">Your confession has been published anonymously.</p>
+        </div>
+    </div>
+
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 sm:px-6 py-8 z-10 space-y-8">
+        
+        <!-- Hero Tagline Section -->
+        <section class="text-center space-y-3 pt-2">
+            <div class="inline-flex items-center space-x-2 bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-3.5 py-1 rounded-full text-xs font-medium mb-1">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-400 animate-pulse"></i>
+                <span>100% Anonymous & Private Platform</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                Share Your Secrets <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">Anonymously.</span>
+            </h1>
+            <p class="text-slate-400 text-sm sm:text-base max-w-lg mx-auto font-normal">
+                No names, no logins, no judgment. Share your true school stories, fights, secret crushes, and rumors freely.
+            </p>
+        </section>
+
+        <!-- Confession Submission Form -->
+        <section class="glass-panel rounded-3xl p-6 relative neon-border">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-base sm:text-lg font-heading font-bold flex items-center space-x-2 text-white">
+                    <i data-lucide="edit-3" class="w-5 h-5 text-indigo-400"></i>
+                    <span>Write Your Anonymous Confession</span>
+                </h2>
+                <span id="charCounter" class="text-xs text-slate-400 font-mono bg-slate-900/60 px-2.5 py-1 rounded-md border border-slate-800">0 / 500</span>
+            </div>
+
+            <form id="confessionForm" onsubmit="handleConfessionSubmit(event)" class="space-y-4">
+                <div class="relative">
+                    <textarea 
+                        id="confessionInput" 
+                        rows="4" 
+                        maxlength="500" 
+                        placeholder="Write your genuine confession here... (No direct personal hate or severe bullying allowed)" 
+                        required
+                        oninput="updateCharCount()"
+                        class="w-full glass-input rounded-2xl p-4 text-sm sm:text-base text-slate-100 placeholder-slate-500 resize-none"
+                    ></textarea>
+                </div>
+
+                <!-- Category Tags Selection -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-2.5">Select Category Tag:</label>
+                    <div class="flex flex-wrap gap-2" id="tagSelector">
+                        <button type="button" onclick="selectTag(this, 'Fights')" class="tag-btn text-xs font-medium px-3.5 py-2 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-300 hover:border-indigo-500 transition active-tag">#Fights ⚔️</button>
+                        <button type="button" onclick="selectTag(this, 'School Life')" class="tag-btn text-xs font-medium px-3.5 py-2 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-300 hover:border-indigo-500 transition">#School Life 🏫</button>
+                        <button type="button" onclick="selectTag(this, 'Crush')" class="tag-btn text-xs font-medium px-3.5 py-2 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-300 hover:border-indigo-500 transition">#Crush 💖</button>
+                        <button type="button" onclick="selectTag(this, 'Secret')" class="tag-btn text-xs font-medium px-3.5 py-2 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-300 hover:border-indigo-500 transition">#Secret 🤫</button>
+                        <button type="button" onclick="selectTag(this, 'Funny')" class="tag-btn text-xs font-medium px-3.5 py-2 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-300 hover:border-indigo-500 transition">#Funny 😂</button>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="flex items-center space-x-2 text-xs text-slate-400">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                        <span>No name required • Complete anonymity guaranteed</span>
+                    </div>
+                    <button 
+                        type="submit" 
+                        id="submitBtn" 
+                        class="w-full sm:w-auto px-7 py-3 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-heading font-bold text-sm shadow-lg shadow-indigo-500/25 transition duration-300 transform active:scale-95 flex items-center justify-center space-x-2"
+                    >
+                        <span>Send Confession</span>
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section class="space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-lg bg-orange-500/10 text-orange-400 flex items-center justify-center border border-orange-500/20">
+                        <i data-lucide="flame" class="w-4 h-4"></i>
+                    </div>
+                    <h2 class="text-xl font-heading font-bold text-white">Live Confessions</h2>
+                    <span id="feedCountBadge" class="bg-indigo-500/10 text-indigo-400 text-xs px-2.5 py-0.5 rounded-full border border-indigo-500/20 font-bold">0</span>
+                </div>
+
+                <!-- Filter Category Tabs -->
+                <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+                    <button onclick="filterFeed('ALL')" class="filter-btn text-xs px-3.5 py-1.5 rounded-xl bg-indigo-600 text-white font-medium transition">All</button>
+                    <button onclick="filterFeed('Fights')" class="filter-btn text-xs px-3.5 py-1.5 rounded-xl bg-slate-900/80 text-slate-400 hover:text-slate-200 border border-slate-800 font-medium transition">Fights</button>
+                    <button onclick="filterFeed('School Life')" class="filter-btn text-xs px-3.5 py-1.5 rounded-xl bg-slate-900/80 text-slate-400 hover:text-slate-200 border border-slate-800 font-medium transition">School Life</button>
+                    <button onclick="filterFeed('Crush')" class="filter-btn text-xs px-3.5 py-1.5 rounded-xl bg-slate-900/80 text-slate-400 hover:text-slate-200 border border-slate-800 font-medium transition">Crush</button>
+                    <button onclick="filterFeed('Secret')" class="filter-btn text-xs px-3.5 py-1.5 rounded-xl bg-slate-900/80 text-slate-400 hover:text-slate-200 border border-slate-800 font-medium transition">Secret</button>
+                    <button onclick="filterFeed('Funny')" class="filter-btn text-xs px-3.5 py-1.5 rounded-xl bg-slate-900/80 text-slate-400 hover:text-slate-200 border border-slate-800 font-medium transition">Funny</button>
+                </div>
+            </div>
+
+            <!-- Confessions Feed Container -->
+            <div id="confessionsFeed" class="space-y-4">
+                <div class="glass-card rounded-2xl p-5 space-y-3 animate-pulse">
+                    <div class="h-4 bg-slate-800 rounded w-1/4"></div>
+                    <div class="h-10 bg-slate-800/60 rounded w-full"></div>
+                    <div class="h-4 bg-slate-800/40 rounded w-1/3"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="adminAuthModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden">
+        <div class="glass-panel max-w-md w-full rounded-3xl p-6 border border-slate-800 space-y-5 relative">
+            <button onclick="closeAdminModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20">
+                    <i data-lucide="lock" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-heading font-bold text-white">Admin Authentication</h3>
+                    <p class="text-xs text-slate-400">Enter passcode to access moderation panel</p>
+                </div>
+            </div>
+
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4 pt-2">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Passcode Key</label>
+                    <input 
+                        type="password" 
+                        id="adminPasswordInput" 
+                        placeholder="Enter passcode (default: admin123)" 
+                        required
+                        class="w-full glass-input rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500"
+                    />
+                </div>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeAdminModal()" class="px-4 py-2.5 text-xs font-semibold text-slate-400 hover:text-white">Cancel</button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-heading font-bold text-xs shadow-lg shadow-indigo-600/30">Unlock Panel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="adminPanelModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/85 backdrop-blur-lg hidden overflow-y-auto">
+        <div class="glass-panel max-w-4xl w-full rounded-3xl p-6 border border-indigo-500/30 space-y-6 my-auto max-h-[90vh] flex flex-col">
+            
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-4 flex-shrink-0">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center border border-purple-500/20">
+                        <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-heading font-bold text-white flex items-center space-x-2">
+                            <span>Admin Moderation Dashboard</span>
+                            <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-mono">AUTHORIZED</span>
+                        </h2>
+                        <p class="text-xs text-slate-400">Review, manage, pin, or delete student confessions</p>
+                    </div>
+                </div>
+                <button onclick="closeAdminPanel()" class="text-slate-400 hover:text-white p-2 rounded-xl bg-slate-900 border border-slate-800">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Change Passcode Admin Section -->
+            <div class="glass-card rounded-2xl p-4 border border-indigo-500/20 bg-indigo-950/20 flex-shrink-0">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                            <i data-lucide="key" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-heading font-bold text-white">Change Admin Passcode</h4>
+                            <p class="text-xs text-slate-400">Set your personal password for security</p>
+                        </div>
+                    </div>
+                    <form onsubmit="changeAdminPassword(event)" class="flex items-center space-x-2 w-full sm:w-auto">
+                        <input 
+                            type="password" 
+                            id="newAdminPasscodeInput" 
+                            placeholder="New passcode..." 
+                            required 
+                            class="glass-input rounded-xl px-3.5 py-1.5 text-xs text-white placeholder-slate-500 w-full sm:w-48"
+                        />
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-heading font-bold text-xs whitespace-nowrap shadow-md">
+                            Save Passcode
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 flex-shrink-0">
+                <div class="glass-card rounded-2xl p-4 border-slate-800">
+                    <p class="text-xs text-slate-400 font-medium">Total Submissions</p>
+                    <p id="adminStatTotal" class="text-2xl font-heading font-extrabold text-indigo-400 mt-1">0</p>
+                </div>
+                <div class="glass-card rounded-2xl p-4 border-slate-800">
+                    <p class="text-xs text-slate-400 font-medium">Live Feed Items</p>
+                    <p id="adminStatApproved" class="text-2xl font-heading font-extrabold text-emerald-400 mt-1">0</p>
+                </div>
+                <div class="glass-card rounded-2xl p-4 border-slate-800 col-span-2 sm:col-span-1">
+                    <p class="text-xs text-slate-400 font-medium">Featured / Pinned</p>
+                    <p id="adminStatFeatured" class="text-2xl font-heading font-extrabold text-pink-400 mt-1">0</p>
+                </div>
+            </div>
+
+            <!-- Confessions Moderation Feed -->
+            <div class="flex-grow overflow-y-auto pr-1 space-y-3" id="adminConfessionsList">
+                <div class="text-center py-8 text-slate-500 text-sm">Loading submissions...</div>
+            </div>
+
+            <div class="border-t border-slate-800/80 pt-4 flex justify-between items-center text-xs text-slate-400 flex-shrink-0">
+                <span class="flex items-center space-x-1">
+                    <i data-lucide="lock" class="w-3.5 h-3.5 text-indigo-400"></i>
+                    <span>Protected Admin Session</span>
+                </span>
+                <button onclick="closeAdminPanel()" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 font-heading font-bold rounded-xl border border-slate-800">
+                    Close Panel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            doc, 
+            updateDoc, 
+            deleteDoc, 
+            onSnapshot, 
+            serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'school-confessions-v3-fights';
+        const defaultFirebaseConfig = {
+            apiKey: "AIzaSyDummyKeyForLocalFallbackOnly",
+            authDomain: "demo-confessions.firebaseapp.com",
+            projectId: "demo-confessions",
+            storageBucket: "demo-confessions.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef"
+        };
+        
+        let firebaseConfig;
+        try {
+            firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : defaultFirebaseConfig;
+        } catch (e) {
+            firebaseConfig = defaultFirebaseConfig;
+        }
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Prepopulated Realistic School Fight / Rivalry Confessions (No 12th Mention)
+        const realisticFightConfessions = [
+            {
+                id: 'fight-1',
+                text: 'Aaj 7th period ke baad sports ground ke peeche jo fight hui thi lunch period ki wajah se... Bhai poori school corner me khadi hokar dekh rahi thi 💀 PT sir ke aate hi sab aise bhaage jaise kuch hua hi nahi!',
+                tag: 'Fights',
+                status: 'approved',
+                isFeatured: true,
+                reactions: { heart: 64, shocked: 89, secret: 23 },
+                createdAt: { seconds: (Date.now() - 3600000 * 1.5) / 1000 }
+            },
+            {
+                id: 'fight-2',
+                text: 'Inter-section cricket match me jab aakhri ball pe 4 runs chahiye the aur run-out pe argue hone laga... pure match ka mahaul ekdum garam ho gaya tha! PT sir ko aake wickets ukhadne pade tab jaake lafda ruka 😭🏏',
+                tag: 'Fights',
+                status: 'approved',
+                isFeatured: true,
+                reactions: { heart: 51, shocked: 42, secret: 19 },
+                createdAt: { seconds: (Date.now() - 3600000 * 3.5) / 1000 }
+            },
+            {
+                id: 'fight-3',
+                text: 'Classroom me bench ki seat reserved rakhne ke chakkar me do doston ke beech jo chillam-chilli hui thi na... Maths ma\'am ne dono ko poore period ke liye corridor me khada kar diya 😂',
+                tag: 'School Life',
+                status: 'approved',
+                isFeatured: false,
+                reactions: { heart: 38, shocked: 14, secret: 31 },
+                createdAt: { seconds: (Date.now() - 3600000 * 7) / 1000 }
+            },
+            {
+                id: 'fight-4',
+                text: 'Recess me kisi ne mera lunch box chhupaya tha, maine socha B section wale ne liya hai aur galti se uske bag me juice gira diya... Bad me pata chala mera khud ka dost mazak kar raha tha 💀',
+                tag: 'Funny',
+                status: 'approved',
+                isFeatured: false,
+                reactions: { heart: 45, shocked: 28, secret: 40 },
+                createdAt: { seconds: (Date.now() - 3600000 * 12) / 1000 }
+            }
+        ];
+
+        window.confessions = [];
+        window.selectedTag = 'Fights';
+        window.currentFilter = 'ALL';
+        window.isAdmin = false;
+
+        // Custom Admin Passcode Handling (Default: admin123, saved in localStorage)
+        window.getAdminPassword = function() {
+            return localStorage.getItem('custom_admin_passcode') || 'admin123';
+        };
+
+        window.changeAdminPassword = function(event) {
+            event.preventDefault();
+            const newPass = document.getElementById('newAdminPasscodeInput').value.trim();
+            if (newPass.length < 3) {
+                showToast('Passcode Short', 'Password must be at least 3 characters long!', true);
+                return;
+            }
+            localStorage.setItem('custom_admin_passcode', newPass);
+            document.getElementById('newAdminPasscodeInput').value = '';
+            showToast('Passcode Updated! 🔑', 'Your new passcode has been saved successfully.');
+        };
+
+        async function initAuth() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                subscribeConfessions();
+            } catch (err) {
+                console.warn("Using local memory fallback state:", err);
+                setupMemoryFallback();
+            }
+        }
+
+        function getConfessionsCollection() {
+            return collection(db, 'artifacts', appId, 'public', 'data', 'confessions');
+        }
+
+        function subscribeConfessions() {
+            const colRef = getConfessionsCollection();
+            onSnapshot(colRef, (snapshot) => {
+                const list = [];
+                snapshot.forEach(docSnap => {
+                    list.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                
+                if (list.length === 0) {
+                    window.confessions = [...realisticFightConfessions];
+                } else {
+                    list.sort((a, b) => {
+                        const timeA = a.createdAt?.seconds || 0;
+                        const timeB = b.createdAt?.seconds || 0;
+                        return timeB - timeA;
+                    });
+                    window.confessions = list;
+                }
+
+                renderFeed();
+                renderAdminList();
+                updateStats();
+            }, (error) => {
+                console.error("Firestore error, falling back to memory state", error);
+                setupMemoryFallback();
+            });
+        }
+
+        function setupMemoryFallback() {
+            window.confessions = [...realisticFightConfessions];
+            renderFeed();
+            renderAdminList();
+            updateStats();
+        }
+
+        window.handleConfessionSubmit = async function(event) {
+            event.preventDefault();
+            const textarea = document.getElementById('confessionInput');
+            const text = textarea.value.trim();
+
+            if (!text) return;
+
+            const newConfession = {
+                text: text,
+                tag: window.selectedTag || 'Fights',
+                status: 'approved',
+                isFeatured: false,
+                reactions: { heart: 0, shocked: 0, secret: 0 },
+                createdAt: serverTimestamp()
+            };
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-50');
+
+            try {
+                if (auth.currentUser) {
+                    await addDoc(getConfessionsCollection(), newConfession);
+                } else {
+                    window.confessions.unshift({
+                        ...newConfession,
+                        id: 'local-' + Date.now(),
+                        createdAt: { seconds: Date.now() / 1000 }
+                    });
+                    renderFeed();
+                    renderAdminList();
+                    updateStats();
+                }
+
+                textarea.value = '';
+                updateCharCount();
+                showToast('Confession Sent! 🤫', 'Your story has been posted anonymously.');
+            } catch (err) {
+                console.error("Submission error:", err);
+                showToast('Submission Error', 'Please try again.', true);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50');
+            }
+        };
+
+        window.reactToConfession = async function(id, reactionType) {
+            const confession = window.confessions.find(c => c.id === id);
+            if (!confession) return;
+
+            const reactedKey = `reacted_${id}_${reactionType}`;
+            if (localStorage.getItem(reactedKey)) {
+                showToast('Already Reacted', 'You have already reacted to this!');
+                return;
+            }
+            localStorage.setItem(reactedKey, 'true');
+
+            const currentReactions = confession.reactions || { heart: 0, shocked: 0, secret: 0 };
+            const updatedReactions = {
+                ...currentReactions,
+                [reactionType]: (currentReactions[reactionType] || 0) + 1
+            };
+
+            try {
+                if (auth.currentUser && !id.startsWith('local-') && !id.startsWith('fight-')) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'confessions', id);
+                    await updateDoc(docRef, { reactions: updatedReactions });
+                } else {
+                    confession.reactions = updatedReactions;
+                    renderFeed();
+                }
+            } catch (e) {
+                console.error("Reaction error:", e);
+            }
+        };
+
+        window.adminToggleFeature = async function(id) {
+            const confession = window.confessions.find(c => c.id === id);
+            if (!confession) return;
+
+            const nextState = !confession.isFeatured;
+            try {
+                if (auth.currentUser && !id.startsWith('local-') && !id.startsWith('fight-')) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'confessions', id);
+                    await updateDoc(docRef, { isFeatured: nextState });
+                } else {
+                    confession.isFeatured = nextState;
+                    renderFeed();
+                    renderAdminList();
+                    updateStats();
+                }
+                showToast(nextState ? 'Pinned ⭐' : 'Unpinned Post', 'Featured status updated.');
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        window.adminDelete = async function(id) {
+            try {
+                if (auth.currentUser && !id.startsWith('local-') && !id.startsWith('fight-')) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'confessions', id);
+                    await deleteDoc(docRef);
+                } else {
+                    window.confessions = window.confessions.filter(item => item.id !== id);
+                    renderFeed();
+                    renderAdminList();
+                    updateStats();
+                }
+                showToast('Deleted 🗑️', 'Confession removed permanently.');
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        initAuth();
+    </script>
+
+    <script>
+        function updateCharCount() {
+            const textarea = document.getElementById('confessionInput');
+            const counter = document.getElementById('charCounter');
+            const len = textarea.value.length;
+            counter.innerText = `${len} / 500`;
+            if (len >= 450) {
+                counter.className = 'text-xs text-rose-400 font-mono bg-slate-900/60 px-2.5 py-1 rounded-md border border-rose-500/30';
+            } else {
+                counter.className = 'text-xs text-slate-400 font-mono bg-slate-900/60 px-2.5 py-1 rounded-md border border-slate-800';
+            }
+        }
+
+        function selectTag(btn, tag) {
+            document.querySelectorAll('.tag-btn').forEach(b => {
+                b.classList.remove('active-tag');
+            });
+            btn.classList.add('active-tag');
+            window.selectedTag = tag;
+        }
+
+        function filterFeed(tag) {
+            window.currentFilter = tag;
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                if (b.innerText.toLowerCase() === tag.toLowerCase()) {
+                    b.className = 'filter-btn text-xs px-3.5 py-1.5 rounded-xl bg-indigo-600 text-white font-medium transition';
+                } else {
+                    b.className = 'filter-btn text-xs px-3.5 py-1.5 rounded-xl bg-slate-900/80 text-slate-400 hover:text-slate-200 border border-slate-800 font-medium transition';
+                }
+            });
+            renderFeed();
+        }
+
+        function formatTimeAgo(timestamp) {
+            if (!timestamp) return 'Just now';
+            const seconds = timestamp.seconds || Math.floor(timestamp / 1000);
+            const elapsed = Math.floor((Date.now() / 1000) - seconds);
+
+            if (elapsed < 60) return 'Just now';
+            if (elapsed < 3600) return `${Math.floor(elapsed / 60)}m ago`;
+            if (elapsed < 86400) return `${Math.floor(elapsed / 3600)}h ago`;
+            return `${Math.floor(elapsed / 86400)}d ago`;
+        }
+
+        function renderFeed() {
+            const feedContainer = document.getElementById('confessionsFeed');
+            const filtered = window.confessions.filter(c => {
+                const matchesFilter = (window.currentFilter === 'ALL' || c.tag === window.currentFilter);
+                return matchesFilter && c.status === 'approved';
+            });
+
+            document.getElementById('feedCountBadge').innerText = filtered.length;
+
+            if (filtered.length === 0) {
+                feedContainer.innerHTML = `
+                    <div class="glass-card rounded-3xl p-10 text-center space-y-3 border-dashed">
+                        <div class="w-12 h-12 mx-auto rounded-2xl bg-slate-900 flex items-center justify-center text-slate-500 border border-slate-800">
+                            <i data-lucide="inbox" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-base font-heading font-bold text-slate-300">No Confessions Found</h3>
+                        <p class="text-xs text-slate-500 max-w-xs mx-auto">Be the first student to post in this category!</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            feedContainer.innerHTML = filtered.map(item => {
+                const reactions = item.reactions || { heart: 0, shocked: 0, secret: 0 };
+                const timeAgo = formatTimeAgo(item.createdAt);
+                
+                return `
+                    <div class="glass-card rounded-2xl p-5 sm:p-6 space-y-4 relative overflow-hidden animate-fade-in ${item.isFeatured ? 'border-indigo-500/50 shadow-lg shadow-indigo-500/10' : ''}">
+                        ${item.isFeatured ? `
+                            <div class="absolute top-0 right-0 bg-gradient-to-l from-pink-500 to-purple-600 text-white text-[10px] font-heading font-extrabold px-3 py-1 rounded-bl-xl uppercase tracking-widest shadow-md">
+                                ⭐ FEATURED
+                            </div>
+                        ` : ''}
+
+                        <div class="flex items-center justify-between text-xs">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                <span class="font-mono text-slate-300 font-semibold">Anonymous Student</span>
+                                <span class="text-slate-600">•</span>
+                                <span class="px-2.5 py-0.5 rounded-lg bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-medium">#${item.tag || 'Fights'}</span>
+                            </div>
+                            <span class="text-slate-500 font-mono text-[11px]">${timeAgo}</span>
+                        </div>
+
+                        <p class="text-sm sm:text-base text-slate-100 leading-relaxed font-sans whitespace-pre-wrap">${escapeHtml(item.text)}</p>
+
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <button onclick="reactToConfession('${item.id}', 'heart')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-pink-400 border border-slate-800 transition active:scale-90">
+                                    <span class="text-sm">❤️</span>
+                                    <span class="font-bold text-xs text-slate-300">${reactions.heart || 0}</span>
+                                </button>
+                                <button onclick="reactToConfession('${item.id}', 'shocked')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-amber-400 border border-slate-800 transition active:scale-90">
+                                    <span class="text-sm">😮</span>
+                                    <span class="font-bold text-xs text-slate-300">${reactions.shocked || 0}</span>
+                                </button>
+                                <button onclick="reactToConfession('${item.id}', 'secret')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-indigo-400 border border-slate-800 transition active:scale-90">
+                                    <span class="text-sm">🤫</span>
+                                    <span class="font-bold text-xs text-slate-300">${reactions.secret || 0}</span>
+                                </button>
+                            </div>
+                            <span class="text-[11px] text-slate-500 flex items-center space-x-1">
+                                <i data-lucide="lock" class="w-3 h-3 text-slate-600"></i>
+                                <span class="hidden sm:inline">Identity Protected</span>
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        function renderAdminList() {
+            const listContainer = document.getElementById('adminConfessionsList');
+            if (!listContainer) return;
+
+            if (window.confessions.length === 0) {
+                listContainer.innerHTML = `<div class="text-center py-8 text-slate-500 text-sm">No submissions available.</div>`;
+                return;
+            }
+
+            listContainer.innerHTML = window.confessions.map(item => {
+                const timeAgo = formatTimeAgo(item.createdAt);
+
+                return `
+                    <div class="glass-card rounded-2xl p-4 border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div class="space-y-1 max-w-xl">
+                            <div class="flex items-center space-x-2 text-xs">
+                                <span class="px-2 py-0.5 rounded-md bg-slate-900 text-indigo-300 font-semibold border border-slate-800">#${item.tag}</span>
+                                <span class="text-slate-500">${timeAgo}</span>
+                                ${item.isFeatured ? `<span class="text-pink-400 text-[10px] bg-pink-500/10 px-2 py-0.5 rounded border border-pink-500/20">PINNED</span>` : ''}
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-200">${escapeHtml(item.text)}</p>
+                        </div>
+
+                        <div class="flex items-center space-x-2 flex-shrink-0">
+                            <button onclick="adminToggleFeature('${item.id}')" class="px-3 py-1.5 rounded-xl ${item.isFeatured ? 'bg-pink-600 text-white' : 'bg-slate-900 text-slate-300'} text-xs font-heading font-bold transition border border-slate-800">
+                                ${item.isFeatured ? '★ Pinned' : '☆ Pin'}
+                            </button>
+                            <button onclick="adminDelete('${item.id}')" class="px-3.5 py-1.5 rounded-xl bg-rose-600/80 hover:bg-rose-600 text-white text-xs font-heading font-bold transition">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        function updateStats() {
+            const total = window.confessions.length;
+            const approved = window.confessions.filter(c => c.status === 'approved').length;
+            const featured = window.confessions.filter(c => c.isFeatured).length;
+
+            document.getElementById('totalPostsCount').innerText = total;
+            document.getElementById('adminStatTotal').innerText = total;
+            document.getElementById('adminStatApproved').innerText = approved;
+            document.getElementById('adminStatFeatured').innerText = featured;
+        }
+
+        function openAdminModal() {
+            if (window.isAdmin) {
+                document.getElementById('adminPanelModal').classList.remove('hidden');
+            } else {
+                document.getElementById('adminAuthModal').classList.remove('hidden');
+            }
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminAuthModal').classList.add('hidden');
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminPanelModal').classList.add('hidden');
+        }
+
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            const input = document.getElementById('adminPasswordInput').value;
+            const currentPassword = window.getAdminPassword();
+
+            if (input === currentPassword) {
+                window.isAdmin = true;
+                closeAdminModal();
+                renderAdminList();
+                document.getElementById('adminPanelModal').classList.remove('hidden');
+                showToast('Admin Logged In', 'Dashboard open for moderation!');
+            } else {
+                showToast('Access Denied', 'Incorrect passcode entered!', true);
+            }
+        }
+
+        function showToast(title, msg, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastTitle.innerText = title;
+            toastMsg.innerText = msg;
+
+            if (isError) {
+                toastIcon.className = 'w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center flex-shrink-0';
+                toast.classList.remove('border-indigo-500/30');
+                toast.classList.add('border-rose-500/30');
+            } else {
+                toastIcon.className = 'w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center flex-shrink-0';
+                toast.classList.remove('border-rose-500/30');
+                toast.classList.add('border-indigo-500/30');
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 3500);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        window.onload = function() {
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>
+```
