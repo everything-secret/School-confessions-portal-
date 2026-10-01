@@ -11,7 +11,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
+    // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBQt5graDTwRkfcllkaEToWrNsaYijWfw0",
+  authDomain: "school-confessions-fc644.firebaseapp.com",
+  projectId: "school-confessions-fc644",
+  storageBucket: "school-confessions-fc644.firebasestorage.app",
+  messagingSenderId: "79186035750",
+  appId: "1:79186035750:web:212b3a78074436019992e7"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
     <script>
         tailwind.config = {
             darkMode: 'class',
