@@ -29,6 +29,88 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+<script> type="module">
+
+import { getFirestore,
+
+collection, addDoc, onSnapshot, query, orderBy,
+
+serverTimestamp }
+
+from 'https://www.gstatic .com/firebasejs/9.23.0/firebase
+
+-firestore.js';
+
+const db = getFirestore();
+
+const confessionsCollection = collection(db, 'confessions');
+
+    const confessionForm = document.getElementById('con fessionForm');
+
+const confessionInput = document.getElementById('con fessionInput');
+
+const confessionsList = document.getElementById('con fessionsList');
+
+const statsBadge = document.g etElementById('statsBadge');
+
+confessionForm.addEventLi { stener('submit', async (e) =\>
+
+e.preventDefault();
+
+const text = confessionInput.value.trim(); if (text) {
+
+try {
+
+await
+
+addDoc(confessionsCollection, {
+
+text: text, timestamp: serverTimestamp() });
+
+confessionInput.value = ";
+
+} catch (error) {
+
+console.error('Error adding confession: ', error); }
+
+}
+    const q =
+
+query(confessionsCollection,
+
+orderBy('timestamp', 'desc'));
+
+onSnapshot(q, (snapshot) =\> {
+
+confessionsList.innerHTML = '';
+
+let count = 0;
+
+snapshot.forEach((doc) =\> {
+
+count++;
+
+const confession = doc.data();
+
+const div =
+
+document.createElement('div');
+
+div.className = 'glass-card p-4
+
+rounded-xl';
+
+div.innerHTML = `&lt;p
+
+class="text-white text-lg"&gt;$
+
+{confession.text}&lt;/p&gt;`;
+
+confessionsList.appendChild(di v); });
+
+statsBadge.innerHTML = `&lt;i data-lucide="mess age-circle"&gt;&lt;/i&gt; &lt;span&gt;Confessions: &lt;strong&gt;${count}&lt;/strong&gt;&lt;/span&gt;`; lucide.createlcons(); });
+...
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
