@@ -101,11 +101,7 @@ div.className = 'glass-card p-4
 
 rounded-xl';
 
-div.innerHTML = `&lt;p
-
-class="text-white text-lg"&gt;$
-
-{confession.text}&lt;/p&gt;`;
+const p =document.createElement('p'); p.className = 'text-white text-lg'; p.textContent = confession.text; div.appendChild(p);
 
 confessionsList.appendChild(di v); });
 
