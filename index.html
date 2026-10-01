@@ -81,32 +81,7 @@ query(confessionsCollection,
 
 orderBy('timestamp', 'desc'));
 
-onSnapshot(q, (snapshot) =\> {
-
-confessionsList.innerHTML = '';
-
-let count = 0;
-
-snapshot.forEach((doc) =\> {
-
-count++;
-
-const confession = doc.data();
-
-const div =
-
-document.createElement('div');
-
-div.className = 'glass-card p-4
-
-rounded-xl';
-
-const p =document.createElement('p'); p.className = 'text-white text-lg'; p.textContent = confession.text; div.appendChild(p);
-
-confessionsList.appendChild(di v); });
-
-statsBadge.innerHTML = `&lt;i data-lucide="mess age-circle"&gt;&lt;/i&gt; &lt;span&gt;Confessions: &lt;strong&gt;${count}&lt;/strong&gt;&lt;/span&gt;`; lucide.createlcons(); });
-...
+onSnapshot(q, (snapshot) =\> { confessionsList.innerHTML = ''; let count = 0; snapshot.forEach((doc) =\> { count++; const confession = doc.data(); const div = document.createElement('div'); div.className = 'glass-card p-4 rounded-xl'; const p = document.createElement('p'); p.className = 'text-white text-lg'; p.textContent = confession.text; div.appendChild(p); confessionsList.appendC hild(div); }); if (statsBadge) { statsBadge.innerHTML = '\<i data-lucide="message-square "\>\</i\> \<span\>Confessions: \<strong\>' + count + '\</strong\>\</span\>'; } if (typeof lucide !== 'undefined') { lucide.createlcons(); } });
     
     <script>
         tailwind.config = {
