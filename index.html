@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Confessions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #030712;
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --accent-blue: #3b82f6;
+      --cyan-glow: #06b6d4;
+      --text-white: #f8fafc;
+      --text-dim: #94a3b8;
+      --border: rgba(56, 189, 248, 0.15);
+      --border-focus: rgba(59, 130, 246, 0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(29, 78, 216, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
+      color: var(--text-white);
+      min-height: 100vh;
+      padding: 30px 16px;
+    }
+
+    .container { max-width: 520px; margin: 0 auto; }
+
+    /* Aesthetic Header */
+    header { text-align: center; margin-bottom: 32px; }
+    header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 30%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+    header p { font-size: 13px; color: var(--text-dim); font-weight: 400; }
+
+    /* Glassmorphic Form Card */
+    .create-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-white);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .char-count { font-size: 12px; color: var(--text-dim); font-weight: 400; }
+
+    textarea {
+      width: 100%;
+      height: 110px;
+      background: rgba(3, 7, 18, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      color: #fff;
+      font-size: 14px;
+      resize: none;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+    textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Aesthetic Tag Chips */
+    .tag-section { margin: 16px 0; }
+    .tag-title { font-size: 12px; color: var(--text-dim); margin-bottom: 10px; font-weight: 500; }
+    .tags-container { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag-chip {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tag-chip.active {
+      background: linear-gradient(135deg, var(--accent-blue), var(--cyan-glow));
+      color: #fff;
+      border-color: transparent;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Aesthetic Glow Button */
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #2563eb, #0284c7);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+    }
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(37, 99, 235, 0.45);
+    }
+
+    /* Live Feed Header */
+    .feed-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding: 0 4px;
+    }
+    .feed-title { font-size: 16px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .badge {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid var(--border);
+      color: #60a5fa;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+
+    /* Aesthetic Post Cards */
+    .post-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+      transition: all 0.25s ease;
+    }
+    .post-card:hover {
+      border-color: rgba(96, 165, 250, 0.3);
+      transform: translateY(-2px);
+    }
+    .post-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .user-info { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: #e2e8f0; }
+    .user-dot { width: 7px; height: 7px; background: #38bdf8; border-radius: 50%; box-shadow: 0 0 8px #38bdf8; }
+    .post-tag {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border);
+      color: #38bdf8;
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+    }
+    .post-text { font-size: 14px; line-height: 1.6; color: #cbd5e1; margin-bottom: 14px; white-space: pre-wrap; }
+    .post-footer { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-dim); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>School Confessions</h1>
+      <p>100% Anonymous & Private Space</p>
+    </header>
+
+    <!-- Post Creation -->
+    <div class="create-card">
+      <div class="card-title">
+        <span>Write Anonymous Confession</span>
+        <span class="char-count" id="charCount">0 / 500</span>
+      </div>
+      <textarea id="confessionInput" maxlength="500" placeholder="Share your secret, fight story, or crush details..."></textarea>
+      
+      <div class="tag-section">
+        <div class="tag-title">Category Tag:</div>
+        <div class="tags-container" id="tagSelector">
+          <div class="tag-chip active" data-tag="School Life">#School Life 🏠</div>
+          <div class="tag-chip" data-tag="Fights">#Fights ⚔️</div>
+          <div class="tag-chip" data-tag="Crush">#Crush 💖</div>
+          <div class="tag-chip" data-tag="Secret">#Secret 🤫</div>
+          <div class="tag-chip" data-tag="Funny">#Funny 😂</div>
+        </div>
+      </div>
+
+      <button class="btn-submit" id="submitBtn">Post Confession</button>
+    </div>
+
+    <!-- Live Feed Title -->
+    <div class="feed-header">
+      <div class="feed-title">
+        <span>Live Feed</span>
+        <span class="badge" id="totalCount">0</span>
+      </div>
+    </div>
+
+    <!-- Confessions Feed -->
+    <div id="confessionsList">
+      <p style="text-align: center; color: var(--text-dim); padding: 20px;">Loading confessions...</p>
+    </div>
+  </div>
+
+  <!-- Firebase Integration -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // 🔴 BASS YAHAN AAPNI FIREBASE CONFIG DETAILS DAALEIN
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const confessionsRef = collection(db, "confessions");
+
+    let selectedTag = "School Life";
+
+    // Character Counter
+    const textarea = document.getElementById("confessionInput");
+    textarea.addEventListener("input", () => {
+      document.getElementById("charCount").innerText = `${textarea.value.length} / 500`;
+    });
+
+    // Tag Selection
+    document.querySelectorAll("#tagSelector .tag-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        document.querySelectorAll("#tagSelector .tag-chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        selectedTag = chip.getAttribute("data-tag");
+      });
+    });
+
+    // Send Confession
+    document.getElementById("submitBtn").addEventListener("click", async () => {
+      const text = textarea.value.trim();
+      if (!text) {
+        alert("Please write something first!");
+        return;
+      }
+
+      try {
+        await addDoc(confessionsRef, {
+          text: text,
+          tag: selectedTag,
+          timestamp: serverTimestamp()
+        });
+        textarea.value = "";
+        document.getElementById("charCount").innerText = "0 / 500";
+      } catch (err) {
+        console.error("Error adding document: ", err);
+        alert("Unable to post. Check Firebase Security Rules!");
+      }
+    });
+
+    // Realtime Listener
+    const q = query(confessionsRef, orderBy("timestamp", "desc"));
+    onSnapshot(q, (snapshot) => {
+      const container = document.getElementById("confessionsList");
+      document.getElementById("totalCount").innerText = snapshot.size;
+      container.innerHTML = "";
+
+      if (snapshot.empty) {
+        container.innerHTML = "<p style='text-align:center; color: var(--text-dim); padding: 20px;'>No confessions yet.</p>";
+        return;
+      }
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const timeAgo = data.timestamp ? new Date(data.timestamp.toDate()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Just now';
+        
+        const card = document.createElement("div");
+        card.className = "post-card";
+        card.innerHTML = `
+          <div class="post-header">
+            <div class="user-info">
+              <span class="user-dot"></span>
+              Anonymous Student
+            </div>
+            <span class="post-tag">#${data.tag || 'General'}</span>
+          </div>
+          <div class="post-text">${data.text}</div>
+          <div class="post-footer">
+            <span>${timeAgo}</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }, (error) => {
+      console.error(error);
+      document.getElementById("confessionsList").innerHTML = "<p style='text-align:center; color:#ef4444; padding: 20px;'>Error loading feed!</p>";
+    });
+  </script>
+</body>
+</html>
