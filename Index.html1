@@ -1,0 +1,609 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZORKO - Brand of Foodies | Banda, UP</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        zorko: {
+                            dark: '#0a0a0a',
+                            card: '#141414',
+                            elevated: '#1f1f1f',
+                            accent: '#d4a359',
+                            accentHover: '#e5b66d',
+                            cream: '#f5f0eb',
+                            muted: '#9a9895',
+                            border: '#2a2a2a'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrolling & Marquee Effects */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4a359;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: 200%;
+            animation: marquee 28s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+
+        .modal-blur {
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-zorko-dark text-zorko-cream font-sans antialiased selection:bg-zorko-accent selection:text-black">
+
+    <header class="fixed top-0 left-0 w-full z-40 bg-zorko-dark/85 backdrop-blur-md border-b border-zorko-border/60 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2 group">
+                <span class="font-cinzel text-2xl md:text-3xl font-black tracking-widest text-zorko-cream group-hover:text-zorko-accent transition-colors">
+                    ZORKO<span class="text-zorko-accent">.</span>
+                </span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-xs font-bold tracking-[0.2em] uppercase text-zorko-cream/70">
+                <a href="#about" class="hover:text-zorko-accent transition-colors">Our Story</a>
+                <a href="#highlights" class="hover:text-zorko-accent transition-colors">Highlights</a>
+                <a href="#menu" class="hover:text-zorko-accent transition-colors">Menu Directory</a>
+                <a href="#reviews" class="hover:text-zorko-accent transition-colors">Reviews</a>
+            </nav>
+
+            <button onclick="openLocationModal()" class="inline-flex items-center space-x-2 border border-zorko-accent/60 hover:border-zorko-accent bg-zorko-accent/10 hover:bg-zorko-accent hover:text-black text-zorko-accent text-xs uppercase tracking-widest px-5 py-2.5 rounded-full transition-all duration-300 font-bold">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Our Location</span>
+            </button>
+        </div>
+    </header>
+
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Banner Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1920&q=80" 
+                 alt="ZORKO Atmosphere" 
+                 class="w-full h-full object-cover filter brightness-[0.3] scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-zorko-dark via-transparent to-zorko-dark/80"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center">
+            <span class="inline-block text-zorko-accent text-xs md:text-sm font-extrabold tracking-[0.35em] uppercase mb-4 border-b border-zorko-accent/40 pb-1">
+                Banda, Uttar Pradesh
+            </span>
+            <h1 class="font-cinzel text-5xl sm:text-7xl lg:text-8xl font-black uppercase tracking-wider mb-2 leading-none text-zorko-cream">
+                ZORKO
+            </h1>
+            <p class="font-cinzel text-lg md:text-2xl font-light tracking-[0.3em] text-zorko-accent mb-8">
+                BRAND OF FOODIES
+            </p>
+            <p class="text-zorko-cream/70 text-sm md:text-base max-w-xl mb-10 font-light leading-relaxed">
+                Join a community where every visit tells a story and every bite sparks connection.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                <a href="#highlights" class="w-full sm:w-auto px-8 py-4 bg-zorko-accent text-black font-extrabold uppercase text-xs tracking-widest rounded-full hover:bg-white transition-all duration-300 shadow-xl shadow-zorko-accent/20">
+                    Explore Highlights
+                </a>
+                <button onclick="openLocationModal()" class="w-full sm:w-auto px-8 py-4 border border-zorko-cream/40 hover:border-zorko-cream text-zorko-cream font-bold uppercase text-xs tracking-widest rounded-full hover:bg-zorko-cream/10 transition-all duration-300">
+                    Find Café
+                </button>
+            </div>
+        </div>
+
+        <!-- Down Arrow Indicator -->
+        <a href="#marquee" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-zorko-cream/40 hover:text-zorko-accent transition-colors">
+            <i class="fa-solid fa-chevron-down text-lg animate-bounce"></i>
+        </a>
+    </section>
+
+    <div id="marquee" class="bg-zorko-accent text-black py-3.5 overflow-hidden border-y border-zorko-accent">
+        <div class="animate-marquee whitespace-nowrap font-cinzel font-black text-xs tracking-widest uppercase">
+            <span class="mx-6">BURGERS <i class="fa-solid fa-star text-[8px] mx-2 align-middle"></i></span>
+            <span class="mx-6">SPECIAL BUNS <i class="fa-solid fa-star text-[8px] mx-2 align-middle"></i></span>
+            <span class="mx-6">INDO-CHINESE NOODLES <i class="fa-solid fa-star text-[8px] mx-2 align-middle"></i></span>
+            <span class="mx-6">CHILLY SPECIALS <i class="fa-solid fa-star text-[8px] mx-2 align-middle"></i></span>
+            <span class="mx-6">MOJITOS & ICE TEAS <i class="fa-solid fa-star text-[8px] mx-2 align-middle"></i></span>
+            <span class="mx-6">THICK COLD COFFEE <i class="fa-solid fa-star text-[8px] mx-2 align-middle"></i></span>
+            <!-- Duplicate for infinite marquee loop -->
+            <span class="mx-6">BURGERS <i class="fa-solid fa-star text-[8px] mx-2 align-middle"></i></span>
+            <span class="mx-6">SPECIAL BUNS <i class="fa-solid fa-star text-[8px] mx-2 align-middle"></i></span>
+            <span class="mx-6">INDO-CHINESE NOODLES <i class="fa-solid fa-star text-[8px] mx-2 align-middle"></i></span>
+            <span class="mx-6">CHILLY SPECIALS <i class="fa-solid fa-star text-[8px] mx-2 align-middle"></i></span>
+            <span class="mx-6">MOJITOS & ICE TEAS <i class="fa-solid fa-star text-[8px] mx-2 align-middle"></i></span>
+            <span class="mx-6">THICK COLD COFFEE <i class="fa-solid fa-star text-[8px] mx-2 align-middle"></i></span>
+        </div>
+    </div>
+
+    <section id="about" class="py-24 px-6 max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <span class="text-zorko-accent text-xs font-bold tracking-[0.25em] uppercase block">Where Taste Meets Culture</span>
+                <h2 class="font-cinzel text-3xl sm:text-5xl font-bold leading-tight text-zorko-cream">
+                    Banda’s Premier Culinary & Hangout Destination
+                </h2>
+                <p class="text-zorko-cream/70 leading-relaxed font-light text-sm md:text-base">
+                    At ZORKO Banda, we redefine fast gourmet dining by combining handcrafted signature recipes with an inviting, modern atmosphere. Whether you are indulging in our Mexican King Burger, sharing pull-apart Cheese Buns, or cooling down with a Rose Petal Mojito, we ensure every visit is memorable.
+                </p>
+                <div class="grid grid-cols-3 gap-6 pt-6 border-t border-zorko-border">
+                    <div>
+                        <span class="font-cinzel text-3xl font-black text-zorko-accent block">4.7★</span>
+                        <span class="text-[11px] text-zorko-cream/60 uppercase tracking-wider">90+ Reviews</span>
+                    </div>
+                    <div>
+                        <span class="font-cinzel text-3xl font-black text-zorko-accent block">50+</span>
+                        <span class="text-[11px] text-zorko-cream/60 uppercase tracking-wider">Menu Delights</span>
+                    </div>
+                    <div>
+                        <span class="font-cinzel text-3xl font-black text-zorko-accent block">100%</span>
+                        <span class="text-[11px] text-zorko-cream/60 uppercase tracking-wider">Fresh Quality</span>
+                    </div>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="aspect-square rounded-2xl overflow-hidden border border-zorko-border shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" 
+                         alt="ZORKO Gourmet Burger" 
+                         class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="highlights" class="py-20 bg-zorko-card/40 border-y border-zorko-border">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-zorko-accent text-xs font-bold tracking-[0.25em] uppercase">Signature Categories</span>
+                <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-zorko-cream mt-2">
+                    Explore Our Delicacies
+                </h2>
+                <p class="text-zorko-cream/60 text-xs md:text-sm mt-2">Click "VIEW MENU" on any section to open the category popup menu.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- OG Burgers Card -->
+                <div class="group bg-zorko-card rounded-2xl border border-zorko-border overflow-hidden hover:border-zorko-accent/60 transition-all duration-300">
+                    <div class="h-60 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" 
+                             alt="OG Burgers" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-zorko-card via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-cinzel text-xl font-bold text-zorko-cream">OG Burgers</h3>
+                        <p class="text-xs text-zorko-cream/60 mt-2">Mexican King, Spicy Salsa BBQ, Royal Paneer & Classic OG burgers.</p>
+                        <button onclick="openCategoryModal('Burgers')" class="mt-6 inline-flex items-center text-xs font-extrabold text-zorko-accent hover:text-white uppercase tracking-wider transition-colors">
+                            <span>VIEW MENU</span>
+                            <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Special Buns Card -->
+                <div class="group bg-zorko-card rounded-2xl border border-zorko-border overflow-hidden hover:border-zorko-accent/60 transition-all duration-300">
+                    <div class="h-60 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80" 
+                             alt="Special Buns" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-zorko-card via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-cinzel text-xl font-bold text-zorko-cream">Special Buns</h3>
+                        <p class="text-xs text-zorko-cream/60 mt-2">Cheese Pull & Tear Garlic Buns and Korean Jalapeno artisanal stuffed buns.</p>
+                        <button onclick="openCategoryModal('Special Buns')" class="mt-6 inline-flex items-center text-xs font-extrabold text-zorko-accent hover:text-white uppercase tracking-wider transition-colors">
+                            <span>VIEW MENU</span>
+                            <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Indo-Chinese Noodles Card -->
+                <div class="group bg-zorko-card rounded-2xl border border-zorko-border overflow-hidden hover:border-zorko-accent/60 transition-all duration-300">
+                    <div class="h-60 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=600&q=80" 
+                             alt="Noodles" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-zorko-card via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-cinzel text-xl font-bold text-zorko-cream">Indo-Chinese Noodles</h3>
+                        <p class="text-xs text-zorko-cream/60 mt-2">Manchurian, Hakka, Paneer, Singapore & Schezwan Garlic Noodles.</p>
+                        <button onclick="openCategoryModal('Noodles')" class="mt-6 inline-flex items-center text-xs font-extrabold text-zorko-accent hover:text-white uppercase tracking-wider transition-colors">
+                            <span>VIEW MENU</span>
+                            <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chilly Specials Card -->
+                <div class="group bg-zorko-card rounded-2xl border border-zorko-border overflow-hidden hover:border-zorko-accent/60 transition-all duration-300">
+                    <div class="h-60 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=600&q=80" 
+                             alt="Chilly Specials" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-zorko-card via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-cinzel text-xl font-bold text-zorko-cream">Chilly Specials</h3>
+                        <p class="text-xs text-zorko-cream/60 mt-2">Mushroom Chilly, Paneer Chilly, and Crispy Veg wok delicacies.</p>
+                        <button onclick="openCategoryModal('Chilly Specials')" class="mt-6 inline-flex items-center text-xs font-extrabold text-zorko-accent hover:text-white uppercase tracking-wider transition-colors">
+                            <span>VIEW MENU</span>
+                            <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Signature Mojitos Card -->
+                <div class="group bg-zorko-card rounded-2xl border border-zorko-border overflow-hidden hover:border-zorko-accent/60 transition-all duration-300">
+                    <div class="h-60 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80" 
+                             alt="Mojitos" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-zorko-card via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-cinzel text-xl font-bold text-zorko-cream">Beverages & Mojitos</h3>
+                        <p class="text-xs text-zorko-cream/60 mt-2">Rose Petal Mojito, Blue Lagoon, Lemon Ice Tea & Thick Shakes.</p>
+                        <button onclick="openCategoryModal('Beverages & Mojitos')" class="mt-6 inline-flex items-center text-xs font-extrabold text-zorko-accent hover:text-white uppercase tracking-wider transition-colors">
+                            <span>VIEW MENU</span>
+                            <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Thukpa & Soups Card -->
+                <div class="group bg-zorko-card rounded-2xl border border-zorko-border overflow-hidden hover:border-zorko-accent/60 transition-all duration-300">
+                    <div class="h-60 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=600&q=80" 
+                             alt="Thukpa" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-zorko-card via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-cinzel text-xl font-bold text-zorko-cream">Soups & Thukpa</h3>
+                        <p class="text-xs text-zorko-cream/60 mt-2">Authentic Veg Thukpa and warm Asian broth bowls cooked fresh.</p>
+                        <button onclick="openCategoryModal('Soups & Thukpa')" class="mt-6 inline-flex items-center text-xs font-extrabold text-zorko-accent hover:text-white uppercase tracking-wider transition-colors">
+                            <span>VIEW MENU</span>
+                            <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="text-zorko-accent text-xs font-bold tracking-[0.25em] uppercase block">Search Directory</span>
+            <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-zorko-cream mt-2">
+                All Menu Items
+            </h2>
+            <p class="text-zorko-cream/60 text-xs md:text-sm mt-2">Lookup any dish directly or search by item name.</p>
+        </div>
+
+        <div class="max-w-xl mx-auto mb-12">
+            <div class="relative">
+                <input type="text" id="directorySearch" placeholder="Search burger, noodles, bun, thukpa, mojito..." 
+                       class="w-full bg-zorko-card border border-zorko-border rounded-full py-3.5 pl-12 pr-6 text-sm text-zorko-cream placeholder-zorko-cream/40 focus:outline-none focus:border-zorko-accent transition-colors" />
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-zorko-cream/40"></i>
+            </div>
+        </div>
+
+        <div id="fullMenuGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Full menu list populated dynamically -->
+        </div>
+    </section>
+
+    <section id="reviews" class="py-20 bg-zorko-card/30 border-t border-zorko-border">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between mb-12">
+                <div>
+                    <span class="text-zorko-accent text-xs font-bold tracking-[0.25em] uppercase block">Reputation</span>
+                    <h2 class="font-cinzel text-3xl font-bold text-zorko-cream mt-1">Loved By Foodies</h2>
+                </div>
+                <div class="flex items-center space-x-3 mt-4 md:mt-0 bg-zorko-card px-5 py-3 rounded-full border border-zorko-border">
+                    <span class="font-cinzel font-black text-2xl text-zorko-accent">4.7</span>
+                    <div class="flex text-amber-400 text-xs">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star-half-stroke"></i>
+                    </div>
+                    <span class="text-zorko-cream/60 text-xs border-l border-zorko-border pl-3">~90 Reviews in Banda</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-zorko-card p-6 rounded-2xl border border-zorko-border">
+                    <p class="text-xs text-zorko-cream/80 italic leading-relaxed">"The Cheese Pull Garlic Bun and Mexican King Burger are unbeatable in Banda. Excellent atmosphere for friends!"</p>
+                    <div class="mt-4 pt-4 border-t border-zorko-border/60 flex items-center justify-between">
+                        <span class="text-xs font-bold text-zorko-cream">Vikram Singh</span>
+                        <span class="text-[10px] text-zorko-accent uppercase font-bold">Local Foodie</span>
+                    </div>
+                </div>
+
+                <div class="bg-zorko-card p-6 rounded-2xl border border-zorko-border">
+                    <p class="text-xs text-zorko-cream/80 italic leading-relaxed">"Loved the Paneer Noodles and Rose Mojito. Perfectly cooked and super tasty. Definitely visiting again."</p>
+                    <div class="mt-4 pt-4 border-t border-zorko-border/60 flex items-center justify-between">
+                        <span class="text-xs font-bold text-zorko-cream">Anjali Mishra</span>
+                        <span class="text-[10px] text-zorko-accent uppercase font-bold">Verified Review</span>
+                    </div>
+                </div>
+
+                <div class="bg-zorko-card p-6 rounded-2xl border border-zorko-border">
+                    <p class="text-xs text-zorko-cream/80 italic leading-relaxed">"Great portion sizes and friendly staff. Korean Jalapeno Bun is a must try if you visit ZORKO Banda!"</p>
+                    <div class="mt-4 pt-4 border-t border-zorko-border/60 flex items-center justify-between">
+                        <span class="text-xs font-bold text-zorko-cream">Rahul Srivastava</span>
+                        <span class="text-[10px] text-zorko-accent uppercase font-bold">Google Local Guide</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-zorko-dark border-t border-zorko-border pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <div>
+                <span class="font-cinzel text-2xl font-black tracking-widest text-zorko-cream block mb-3">
+                    ZORKO<span class="text-zorko-accent">.</span>
+                </span>
+                <p class="text-xs text-zorko-cream/60 leading-relaxed">
+                    BRAND OF FOODIES<br/>
+                    A premium culinary sanctuary serving gourmet burgers, stuffed buns, Asian wok delights & refreshing beverages in Banda.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="font-cinzel text-xs font-bold text-zorko-accent uppercase tracking-widest mb-4">Location</h4>
+                <p class="text-xs text-zorko-cream/80 leading-relaxed mb-2">
+                    <i class="fa-solid fa-location-dot text-zorko-accent mr-2"></i> Banda, Uttar Pradesh, 210001
+                </p>
+                <p class="text-xs text-zorko-cream/60">
+                    <i class="fa-solid fa-clock text-zorko-accent mr-2"></i> Open Daily: 11:00 AM - 10:30 PM
+                </p>
+            </div>
+
+            <div>
+                <h4 class="font-cinzel text-xs font-bold text-zorko-accent uppercase tracking-widest mb-4">Quick Navigation</h4>
+                <ul class="space-y-2 text-xs text-zorko-cream/70">
+                    <li><a href="#about" class="hover:text-zorko-accent">Our Story</a></li>
+                    <li><a href="#highlights" class="hover:text-zorko-accent">Category Highlights</a></li>
+                    <li><a href="#menu" class="hover:text-zorko-accent">Full Directory</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-cinzel text-xs font-bold text-zorko-accent uppercase tracking-widest mb-4">Social</h4>
+                <a href="https://instagram.com" target="_blank" class="inline-flex items-center space-x-2 border border-zorko-border hover:border-zorko-accent px-4 py-2 rounded-full text-xs text-zorko-cream hover:text-zorko-accent transition-all">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>Instagram</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-zorko-border/40 text-center text-[11px] text-zorko-cream/40">
+            <p>© 2026 ZORKO - Brand of Foodies (Banda, UP). All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <div id="categoryModal" class="fixed inset-0 z-50 hidden modal-blur bg-black/80 flex items-center justify-center p-4">
+        <div class="bg-zorko-card border border-zorko-border rounded-2xl w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+            <!-- Modal Header -->
+            <div class="p-6 border-b border-zorko-border flex justify-between items-center bg-zorko-elevated">
+                <div>
+                    <span class="text-[10px] text-zorko-accent uppercase font-bold tracking-widest block">Menu Showcase</span>
+                    <h3 id="modalCategoryTitle" class="font-cinzel text-2xl font-bold text-zorko-cream">Category Name</h3>
+                </div>
+                <button onclick="closeCategoryModal()" class="text-zorko-cream/60 hover:text-zorko-cream text-xl p-2 rounded-full hover:bg-zorko-dark transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content (Items List) -->
+            <div id="modalItemsList" class="p-6 overflow-y-auto space-y-4 divide-y divide-zorko-border/50">
+                <!-- Dynamically filled with items -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-zorko-border bg-zorko-elevated text-center">
+                <button onclick="closeCategoryModal()" class="px-6 py-2 bg-zorko-accent text-black font-extrabold uppercase text-xs tracking-widest rounded-full hover:bg-white transition-colors">
+                    Close View
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="locationModal" class="fixed inset-0 z-50 hidden modal-blur bg-black/80 flex items-center justify-center p-4">
+        <div class="bg-zorko-card border border-zorko-border rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+            <button onclick="closeLocationModal()" class="absolute top-4 right-4 text-zorko-cream/60 hover:text-zorko-cream text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center">
+                <div class="w-12 h-12 rounded-full bg-zorko-accent/10 border border-zorko-accent text-zorko-accent flex items-center justify-center mx-auto mb-4 text-xl">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <h3 class="font-cinzel text-2xl font-bold text-zorko-cream">ZORKO Banda</h3>
+                <p class="text-xs text-zorko-accent uppercase tracking-widest mt-1">Brand of Foodies</p>
+
+                <p class="text-xs text-zorko-cream/80 mt-4 leading-relaxed">
+                    Main Market Area, Banda,<br/>
+                    Uttar Pradesh, 210001
+                </p>
+
+                <div class="mt-6 pt-4 border-t border-zorko-border space-y-2 text-xs text-zorko-cream/60">
+                    <p><strong class="text-zorko-cream">Opening Hours:</strong> 11:00 AM – 10:30 PM</p>
+                    <p><strong class="text-zorko-cream">Google Rating:</strong> 4.7★ (~90 Reviews)</p>
+                </div>
+
+                <a href="https://maps.google.com/?q=Zorko+Banda+Uttar+Pradesh" target="_blank" class="mt-6 inline-block w-full py-3 bg-zorko-accent text-black font-extrabold uppercase text-xs tracking-widest rounded-full hover:bg-white transition-colors">
+                    Get Directions on Maps
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Master Menu Data with exact user prices & categories
+        const fullMenuData = [
+            // Burgers
+            { name: "Mexican King Burger", category: "Burgers", price: 149, desc: "Spiced vegetable patty loaded with pickled jalapenos, salsa sauce & cheese." },
+            { name: "Spicy Salsa BBQ Burger", category: "Burgers", price: 119, desc: "Smoky BBQ infused patty with extra salsa drizzle and crispy lettuce." },
+            { name: "Royal Paneer Grilled Burger", category: "Burgers", price: 179, desc: "Grilled cottage cheese slab seasoned with aromatic spices & signature dressing." },
+            { name: "Classic OG Burger", category: "Burgers", price: 79, desc: "Golden veggie patty with house mayo and classic seasoning." },
+            { name: "Double Tikki Burger", category: "Burgers", price: 149, desc: "Double layered crunchy patty with melted cheese and fresh onions." },
+            { name: "Korean Burger", category: "Burgers", price: 109, desc: "Korean spicy sweet sauce coated patty with sesame seeds." },
+
+            // Special Buns
+            { name: "Korean Jalapeno Bun", category: "Special Buns", price: 219, desc: "Soft warm bun filled with spicy Korean sauce and jalapenos." },
+            { name: "Cheese Pull & Tear Garlic Bun", category: "Special Buns", price: 219, desc: "Round pull-apart garlic bread drenched in herb butter and liquid mozzarella." },
+
+            // Noodles
+            { name: "Manchurian Noodles", category: "Noodles", price: 179, desc: "Wok-fried noodles tossed with veg manchurian balls in garlic soy sauce." },
+            { name: "Paneer Noodles", category: "Noodles", price: 199, desc: "Stir-fried noodles loaded with spicy sauteed paneer cubes." },
+            { name: "Veg Noodles", category: "Noodles", price: 149, desc: "Classic Indo-Chinese noodles with shredded cabbage, capsicum & carrots." },
+            { name: "Singapore Noodles", category: "Noodles", price: 199, desc: "Curry-flavored spicy noodles tossed with mixed Asian vegetables." },
+            { name: "American Chopsuey", category: "Noodles", price: 179, desc: "Crispy fried noodles topped with sweet and tangy vegetable gravy." },
+            { name: "Hakka Noodles", category: "Noodles", price: 199, desc: "Traditional dry stir-fried noodles with subtle white pepper spice." },
+            { name: "Schezwan & Chilly Garlic Noodles", category: "Noodles", price: 179, desc: "Fiery red chili garlic wok noodles." },
+
+            // Soups & Thukpa
+            { name: "Veg Thukpa", category: "Soups & Thukpa", price: 149, desc: "Hearty Himalayan noodle soup packed with fresh herbs and veggies." },
+
+            // Chilly Specials
+            { name: "Mushroom Chilly", category: "Chilly Specials", price: 199, desc: "Crispy tossed button mushrooms in dark soy and green chili sauce." },
+            { name: "Paneer Chilly", category: "Chilly Specials", price: 219, desc: "Classic fried paneer cubes with bell peppers and onions." },
+            { name: "Crispy Veg", category: "Chilly Specials", price: 169, desc: "Assorted crispy deep-fried vegetables tossed in sweet chili sauce." },
+
+            // Beverages & Mojitos
+            { name: "Rose Petal Mojito", category: "Beverages & Mojitos", price: 99, desc: "Cooling mint, lime juice, sparkling soda and fragrant rose extract." },
+            { name: "Blue Lagoon Mojito", category: "Beverages & Mojitos", price: 99, desc: "Citrus blue syrup with mint leaves and crushed ice." },
+            { name: "Lemon Ice Tea", category: "Beverages & Mojitos", price: 89, desc: "Chilled brewed tea with fresh lemon zest." },
+            { name: "Thick Cold Coffee", category: "Beverages & Mojitos", price: 119, desc: "Rich espresso shot blended with vanilla ice cream and chocolate syrup." }
+        ];
+
+        function openCategoryModal(categoryName) {
+            const modal = document.getElementById('categoryModal');
+            const title = document.getElementById('modalCategoryTitle');
+            const itemsList = document.getElementById('modalItemsList');
+
+            title.innerText = categoryName;
+
+            const filteredItems = fullMenuData.filter(item => item.category === categoryName);
+
+            if(filteredItems.length === 0) {
+                itemsList.innerHTML = `<p class="text-xs text-zorko-cream/50 text-center py-4">No specific items listed in this category.</p>`;
+            } else {
+                itemsList.innerHTML = filteredItems.map(item => `
+                    <div class="pt-3 first:pt-0">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-cinzel font-bold text-sm text-zorko-cream">${item.name}</h4>
+                            <span class="font-cinzel text-sm font-extrabold text-zorko-accent">₹${item.price}</span>
+                        </div>
+                        <p class="text-xs text-zorko-cream/60 mt-1 leading-relaxed">${item.desc}</p>
+                    </div>
+                `).join('');
+            }
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCategoryModal() {
+            const modal = document.getElementById('categoryModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openLocationModal() {
+            document.getElementById('locationModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLocationModal() {
+            document.getElementById('locationModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Render full menu directory
+        function renderFullDirectory(query = '') {
+            const container = document.getElementById('fullMenuGrid');
+            const filtered = fullMenuData.filter(item => 
+                item.name.toLowerCase().includes(query.toLowerCase()) || 
+                item.category.toLowerCase().includes(query.toLowerCase())
+            );
+
+            container.innerHTML = filtered.map(item => `
+                <div class="bg-zorko-card p-5 rounded-xl border border-zorko-border flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-cinzel text-sm font-bold text-zorko-cream">${item.name}</h4>
+                            <span class="font-cinzel text-sm font-extrabold text-zorko-accent">₹${item.price}</span>
+                        </div>
+                        <p class="text-xs text-zorko-cream/60 leading-relaxed">${item.desc}</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-zorko-border/40 flex justify-between items-center">
+                        <span class="text-[10px] text-zorko-cream/40 uppercase tracking-widest">${item.category}</span>
+                        <button onclick="openCategoryModal('${item.category}')" class="text-[10px] text-zorko-accent hover:text-white font-bold uppercase tracking-wider">
+                            View Category
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Search event handler
+        document.getElementById('directorySearch').addEventListener('input', (e) => {
+            renderFullDirectory(e.target.value);
+        });
+
+        // Initialize grid on load
+        window.onload = function() {
+            renderFullDirectory();
+        };
+    </script>
+</body>
+</html>
+```
